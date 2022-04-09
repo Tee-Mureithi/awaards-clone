@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
-from .models import Project
+from .models import Project,Rate,Profile,DESIGN_CHOICES,USABILITY_CHOICES,CONTENT_CHOICES
 
 
 
@@ -45,3 +45,26 @@ class RateForm(forms.ModelForm):
         model = Rate
         fields = ['design','usability','content']
 
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_photo','bio','gender','contact']
+
+        widgets = {
+            'profile_photo':forms.FileInput(attrs={'class':'form-control'}),
+            'bio':forms.Textarea(attrs={'class':'form-control ','placeholder':'Write here...','label':'Put a name'}),
+        }
+
+class UpdateProjectForm(forms.ModelForm):
+        class Meta:
+            model = Project
+            fields = ['title','image','description','link']
+
+        widgets = {
+            'title':forms.TextInput(attrs={'class':'form-control','placeholder':'Project Title...'}),
+            'image':forms.TextInput(attrs= {'class':'form-control ','placeholder':'In a word...','label':'Put a name'}),
+            'description':forms.Textarea(attrs = {'class':'form-control','placeholder':"Caption",'label':"Caption"}),
+            'link':forms.URLInput(attrs={'class':'form-control'}),
+        }
