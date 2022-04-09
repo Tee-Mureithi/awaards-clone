@@ -36,3 +36,12 @@ class PostProjectForm(forms.ModelForm):
             'link':forms.URLInput(attrs={'class':'form-control'}),
         }
     
+class RateForm(forms.ModelForm):
+
+    design = forms.ChoiceField(choices=DESIGN_CHOICES,widget=forms.Select(),required=True)
+    usability = forms.ChoiceField(choices=USABILITY_CHOICES,widget=forms.Select(),required=True)
+    content = forms.ChoiceField(choices=CONTENT_CHOICES,widget=forms.Select(),required=True)
+    class Meta:
+        model = Rate
+        fields = ['design','usability','content']
+

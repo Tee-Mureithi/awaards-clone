@@ -37,6 +37,4 @@ def login_request(request):
 	return render(request=request, template_name="auth/login.html", context={"login_form":form})
 
 
-	def post_project(request):
-
-		form = 
+	
