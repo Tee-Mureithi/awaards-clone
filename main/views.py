@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import NewUserForm, PostProjectForm ,UpdateProjectForm,EditProfileForm,RateForm
 from django.contrib.auth import login
+from django.urls import reverse_lazy
 from .models import Project,Profile,Rate 
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 import statistics

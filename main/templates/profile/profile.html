@@ -1,0 +1,97 @@
+% extends 'base.html' %}
+
+
+{% block content %}
+<div class="student-profile py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent text-center">
+            <img class="profile_img" src="{{ profile.profile_photo.url }}" alt="student dp">
+            <h3>{{ profile.user.username }}</h3>
+          </div>
+          <div class="card-body">
+            <p class="mb-0"><strong class="pr-1">Gender:</strong></p>
+            <p class="mb-0"><strong class="pr-1">Contact:</strong></p>
+            <p class="mb-0"><strong class="pr-1">Email:</strong></p>
+            {% if request.user.id == profile.user.id %}
+            <a class="btn btn-outline-secondary" href="{% url 'edit_profile' profile.pk %}">Edit profile</a>
+            {% else %}
+            <p class="lead"> Reach out to me for a collaboration </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>General Information</h3>
+          </div>
+          <div class="card-body pt-0">
+            <table class="table table-bordered">
+              <tr>
+                <th width="30%">Contact</th>
+                <td width="2%">:</td>
+                <td>{{ profile.contact }}</td>
+              </tr>
+              <tr>
+                <th width="30%">Email</th>
+                <td width="2%">:</td>
+                <td>{{ profile.user.email }}</td>
+              </tr>
+              <tr>
+                <th width="30%">Gender</th>
+                <td width="2%">:</td>
+                <td>{{ profile.gender }}</td>
+              </tr>
+              <tr>
+                <th width="30%">Religion</th>
+                <td width="2%">:</td>
+                <td>Group</td>
+              </tr>
+              <tr>
+                <th width="30%">blood</th>
+                <td width="2%">:</td>
+                <td>B+</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+          <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Other Information/Bio</h3>
+          </div>
+          <div class="card-body pt-0">
+              <p>{{ profile.bio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <hr>
+  <div class="container">
+    <div class="profiles">
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-4">
+              <div class="card mb-3">
+                <img src="{{ project.image.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{ project.title }}</h5>
+                  <p class="card-text">{{ project.description }}</p>
+                  <a href="{% url 'project_details' project.id %}"><p class="card-text">See Project details</p></a>
+                  <p class="card-text"><small class="text-muted">{{ project.created_at }}</small></p>
+                </div>
+              </div>
+                  </div>
+            {% endfor %}
+        </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

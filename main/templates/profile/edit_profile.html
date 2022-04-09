@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container d-flex justify-content-center">
+    <div class="post-image">
+        <h2 class="text-center">Edit <span class="text-blue">Profile</span> </h2>
+        <div class="form-group">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+        </div>
+        <div class="d-grid gap-1">
+            <button class=" d-inline-block btn btn-primary">Update</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
