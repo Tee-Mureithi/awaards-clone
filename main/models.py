@@ -74,3 +74,47 @@ class Profile(models.Model):
     @classmethod
     def update_profile(cls, id,bio):
         return cls.objects.filter(id = id).update(bio=bio)
+
+
+DESIGN_CHOICES = [
+    (1, '1 '),
+    (2, '2 - Horrible'),
+    (3, '3 - Terrible'),
+    (4, '4 - Bad'),
+    (5, '5 - Ok'),
+    (6, '6 - Watchable'),
+    (7, '7 - Good'),
+    (8, '8 - Very Good'),
+    (9, '9 - Perfect'),
+    (10, '10 - Master Piece')
+    
+]
+
+USABILITY_CHOICES = [
+    (1, '1 - Trash'),
+    (2, '2 - Horrible'),
+    (3, '3 - Terrible'),
+    (4, '4 - Bad'),
+    (5, '5 - Ok'),
+    (6, '6 - Watchable'),
+    (7, '7 - Good'),
+    (8, '8 - Very Good'),
+    (9, '9 - Perfect'),
+    (10, '10 - Master Piece')
+    
+]
+
+CONTENT_CHOICES = [
+    (1, '1 - Trash'),
+    (2, '2 - Horrible'),
+    (3, '3 - Terrible'),
+    (4, '4 - Bad'),
+    (5, '5 - Ok'),
+    (6, '6 - Watchable'),
+    (7, '7 - Good'),
+    (8, '8 - Very Good'),
+    (9, '9 - Perfect'),
+    (10, '10 - Master Piece')
+    
+]
+
