@@ -118,3 +118,27 @@ CONTENT_CHOICES = [
     
 ]
 
+
+class Rate(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    design = models.PositiveSmallIntegerField(default = 0,choices=DESIGN_CHOICES)
+    usability = models.IntegerField(default = 0,choices=USABILITY_CHOICES)
+    content = models.IntegerField(default = 0,choices=CONTENT_CHOICES)
+    reviewed_project = models.ForeignKey(Project,on_delete=models.CASCADE)
+
+    def save_rate(self):
+        self.save()
+    
+    def delete_rate(self):
+        self.delete()
+
+    def get_absolute_url(self):
+        return reverse('review',args=(str(self.id)))
+
+    @classmethod
+    def update_review(cls, id,design):
+        return cls.objects.filter(id = id).update(design=design)
+
+    def __str__(self):
+        return self.user.username
+
