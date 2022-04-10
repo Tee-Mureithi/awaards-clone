@@ -6,7 +6,7 @@ from django.urls import reverse
 from cloudinary.models import CloudinaryField
 
 class Project(models.Model):
-    title = models.Charfield(max_length=50)
+    title = models.CharField(max_length=50)
     image = CloudinaryField('images')
     description = models.TextField()
     link = models.URLField()
