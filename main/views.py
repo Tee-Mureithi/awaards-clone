@@ -1,48 +1,98 @@
-from django.shortcuts import render,redirect
-from django.contrib.auth import login, authenticate
-from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import NewUserForm, PostProjectForm ,UpdateProjectForm,EditProfileForm,RateForm
-from django.contrib.auth import login
-from django.urls import reverse_lazy
-from .models import Project,Profile,Rate 
-from django.views.generic import DetailView,CreateView,UpdateView,DeleteView
+from django.shortcuts import render,redirect,get_object_or_404
+from .forms import GreazeRegistrationForm,PostProjectForm,UpdateProjectForm,EditProfileForm,RateForm
+from .models import Project,Profile,Rate
+from django.contrib.auth.models import User
+from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy,reverse
+from itertools import chain
 import statistics
-from django.contrib.auth import authenticate,login
+from django.db.models import Avg
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from .serializer import ProjectSerializer,ProfileSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .permissions import IsAdminOrReadOnly
 
 
+# Create your views here.
 
-def register_request(request):
-	if request.method == "POST":
-		form = NewUserForm(request.POST)
-		if form.is_valid():
-			user = form.save()
-			login(request, user)
-			messages.success(request, "Registration successful." )
-			# return redirect("main:homepage")
-		messages.error(request, "Unsuccessful registration. Invalid information.")
-	form = NewUserForm()
-	return render (request=request, template_name="auth/register.html", context={"register_form":form})
+class ProfileList(APIView):
+    permission_classes = IsAdminOrReadOnly
+    def get(self,request,format=None):
+        all_profile = Profile.objects.all()
+        serializers = ProfileSerializer(all_profile,many=True)
+        return Response(serializers.data)
 
+    def post(self,request,format=None):
+        serializer = ProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
 
-def login_request(request):
-	if request.method == "POST":
-		form = AuthenticationForm(request,data=request.POST)
-		if form.is_valid():
-			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password')
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				login(request, user)
-				messages.info(request, f"You are now logged in as {username}.")
-				# return redirect("main:homepage")
-			else:
-				messages.error(request,"Invalid username or password.")
-		else:
-			messages.error(request,"Invalid username or password.")
-	form = AuthenticationForm()
-	return render(request=request, template_name="auth/login.html", context={"login_form":form})
+class ProjectList(APIView):
+    permissions = IsAdminOrReadOnly
+    def get(self,request,format=None):
+        all_projects = Project.objects.all()
+        serializers = ProjectSerializer(all_projects,many=True)
+        return Response(serializers.data)
+    
+    def post(self,request,format=None):
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+    
 
+def register_user(request):
+    rgf =GreazeRegistrationForm()
+    if request.method == 'POST':
+        rgf = GreazeRegistrationForm(request.POST)
+        if rgf.is_valid():
+            rgf.save()
+            user = rgf.cleaned_data.get('username')
+            email = rgf.cleaned_data.get('email')
+            # send_welcome_email(user,email)
+            messages.success(request, 'Account was created for ' + user)
+            return redirect('login_user')
+    
+    return render(request, 'registration/registration.html', {'rgf': rgf})
+
+def login_user(request):
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username = username, password = password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+
+    return render(request, 'registration/login.html')
+
+def logout_user(request):
+    logout(request)
+    return redirect('login_user')
+
+class HomeView(ListView):
+    model = Project
+    template_name = 'index.html'
+
+class EditProfileView(UpdateView):
+    model = Profile
+    form_class = EditProfileForm
+    template_name = 'profile/edit-profile.html'
+
+# class PostProjectView(CreateView):
+#     model = Project
+#     form_class = PostProjectForm
+#     template_name = 'post_project.html'
 
 def post_project(request):
 
@@ -64,8 +114,6 @@ def post_project(request):
 class ProjectDetailView(DetailView):
     model = Project
     template_name = 'project-detail.html'
-
-
 
 def project_detail(request,id):
     project = Project.objects.get(id=id)
@@ -129,6 +177,32 @@ def project_details(request,id):
 
     return render(request,'project/project-detail.html', context)
 
+# def review_rate(request,project_id):
+#     project = Project.objects.get(id=project_id)
+#     user = request.user
+    
+#     form = Rateform()   
+#     if request.method == 'POST':
+#         form = RateForm(request.POST)
+#         if form.is_valid():
+#             rate = form.save(commit=False)
+#             rate.user = user
+#             rate.reviewed_project = project
+#             rate.save()
+
+#             return HttpResponseRedirect('project-detail',args=[project.id])
+
+#         else:
+#             form = RateForm
+
+#     title = 'Rate and review'
+#     context = {
+#         'form':form,
+#         'title': title,
+#     }
+
+#     return render(request,'project/project-detail.html',context)
+
 
 
 class ProfileUpdateView(UpdateView):
@@ -187,3 +261,10 @@ def search_for_project(request):
     else:
         message = "You haven't searched for any term"
         return render(request,'search.html',{"message":message})
+
+
+
+
+
+
+
