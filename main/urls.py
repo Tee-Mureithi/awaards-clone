@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from .views import  ProjectDetailView,DeleteProjectView,UpdateProjectView
+from .views import  DeleteProjectView,UpdateProjectView
+
 app_name = "main"   
 
 
