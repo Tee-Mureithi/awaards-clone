@@ -4,6 +4,8 @@ from django.urls import reverse
 # from django.contrib.auth.decorators import login_required
 # Create your models here.
 from cloudinary.models import CloudinaryField
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 class Project(models.Model):
     title = models.CharField(max_length=50)
@@ -49,6 +51,18 @@ class Profile(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    #Creates a profile when a user is created
+    @receiver(post_save, sender = User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    #Saves the User's profile information
+    @receiver(post_save, sender = User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+
     def projects_posts(self):
         return self.project_set.all()
 
@@ -74,6 +88,9 @@ class Profile(models.Model):
     @classmethod
     def update_profile(cls, id,bio):
         return cls.objects.filter(id = id).update(bio=bio)
+
+
+    
 
 
 DESIGN_CHOICES = [
