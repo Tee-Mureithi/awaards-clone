@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+
+    <div class="details" style="margin-top: 3rem;">
+        <div class="row">
+            <div class="col-md-7">
+                <img src="{{ object.image.url }}" alt="" height="600" width="100%">
+            </div>
+            <div class="col-md-5">
+                <div class="card-header">
+                    <p class="fs-3" style="text-decoration:underline;"><strong>{{ object.title }}</strong></p>
+                </div>
+                <p>{{ object.description }}</p>
+                <a href="{% url 'profile' object.user.profile.id %}"><p class="fs-4">Posted by: {{ object.user.username }}</p></a>
+                <cite>{{ object.created_at }}</cite>
+                <br>
+                {% if user.id == object.user.id %}
+                <a href="{% url 'delete' object.id %}"><button type="button" name="post_id"
+                        class="btn btn-danger">Delete post</button></a>
+                <a href="{% url 'update_project' object.id %}"><button type="button" name="post_id"
+                        class="btn btn-secondary">Edit Post</button></a>
+                {% else %}
+                <p class="fw-3">You have to be the owner of this post to delete or update it</p>
+                {% endif %}
+
+                <h3>Rate the Project</h3>
+                <h6>Design</h6>
+                <form class="rate-form" action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-outline-primary">Rate</button>
+                </form>
+                <div id="confirm-box">
+                </div>
+
+                <hr>
+                <h2>Average Ratings</h2>
+                <h6>Design</h6>
+                {% if avg_design and avg_usability and avg_content %}
+                <p>{{ avg_design }}
+                    <span class="fa fa-star fa-2x checked" id="first"></span>
+                </p>
+                <hr>
+                <h6>Usability</h6>
+                <p>{{ avg_usability }}
+                    <span class="fa fa-star fa-2x checked" id="second"></span>
+                </p>
+                <hr>
+                <h6>Content</h6>
+                <p>{{ avg_content }}
+                    <span class="fa fa-star fa-2x checked" id="third"></span>
+                </p>
+                {% else %}
+                <h4>Be the first to rate this project</h4>
+                {% endif %}
+
+                {% include 'modals/e-modal.html' %}
+                <hr>
+                <div class="card-footer">
+                    <h2>Project Link</h2>
+                    <a target="blank" href="{{ object.link }}">See live site</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
+

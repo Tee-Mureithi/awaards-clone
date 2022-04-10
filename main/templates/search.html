@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="finder">
+    {% if results %}
+    <h4>Found {{ results | length }} on {{ message }} search</h4>
+    {% else %}
+    <h4>Sorry didn't find the anything on {{ message }}. Try another a different search title<strong>
+        </strong></h4>
+    {% endif %}
+  </div>
+
+    <div class="found d-flex" style="margin-top:5rem;" >
+        <div class="row">
+            {% for result in results %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                  <img src="{{ result.image.url }}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ result.title }}</h5>
+                    <p class="card-text">{{ result.description }}</p>
+                    <a href="{% url 'project_details' result.id %}"><p class="card-text">See Project details</p></a>
+                    <p class="card-text"><small class="text-muted">{{ result.created_at }}</small></p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
