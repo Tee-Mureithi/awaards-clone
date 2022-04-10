@@ -1,11 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-# from django.contrib.auth.decorators import login_required
-# Create your models here.
+import datetime
 from cloudinary.models import CloudinaryField
-from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.core.validators import MaxValueValidator,MinValueValidator
+
+# Create your models here.
 
 class Project(models.Model):
     title = models.CharField(max_length=50)
@@ -14,7 +14,6 @@ class Project(models.Model):
     link = models.URLField()
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-
 
     def __str__(self):
         return self.title
@@ -40,7 +39,6 @@ class Project(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(default="Hi I'm new here")
@@ -50,18 +48,6 @@ class Profile(models.Model):
     contact = models.CharField(max_length = 10,blank=True)
     updated = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    #Creates a profile when a user is created
-    @receiver(post_save, sender = User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-
-    #Saves the User's profile information
-    @receiver(post_save, sender = User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
-
 
     def projects_posts(self):
         return self.project_set.all()
@@ -90,11 +76,8 @@ class Profile(models.Model):
         return cls.objects.filter(id = id).update(bio=bio)
 
 
-    
-
-
 DESIGN_CHOICES = [
-    (1, '1 '),
+    (1, '1 - Trash'),
     (2, '2 - Horrible'),
     (3, '3 - Terrible'),
     (4, '4 - Bad'),
@@ -106,7 +89,6 @@ DESIGN_CHOICES = [
     (10, '10 - Master Piece')
     
 ]
-
 USABILITY_CHOICES = [
     (1, '1 - Trash'),
     (2, '2 - Horrible'),
@@ -120,7 +102,6 @@ USABILITY_CHOICES = [
     (10, '10 - Master Piece')
     
 ]
-
 CONTENT_CHOICES = [
     (1, '1 - Trash'),
     (2, '2 - Horrible'),
@@ -134,7 +115,6 @@ CONTENT_CHOICES = [
     (10, '10 - Master Piece')
     
 ]
-
 
 class Rate(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -159,3 +139,7 @@ class Rate(models.Model):
     def __str__(self):
         return self.user.username
 
+    
+
+# gender_choice = (1, "Male"),(2,"Female")
+# gender =models.TextField(blank=True, choices=gender_choice)
