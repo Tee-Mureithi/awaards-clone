@@ -6,7 +6,7 @@ from .forms import NewUserForm, PostProjectForm ,UpdateProjectForm,EditProfileFo
 from django.contrib.auth import login
 from django.urls import reverse_lazy
 from .models import Project,Profile,Rate 
-from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.views.generic import DetailView,CreateView,UpdateView,DeleteView
 import statistics
 from django.contrib.auth import authenticate,login
 
