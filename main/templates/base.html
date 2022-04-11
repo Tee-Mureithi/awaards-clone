@@ -1,4 +1,4 @@
-{% load bootstrap5 %}
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   {% block styles %}
-  {% bootstrap_css %}
+
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
@@ -20,7 +20,7 @@
   {% if title %}
   <title>Awaards- {{ title }}</title>
   {% else %}
-  <title>Greaze</title>
+  <title>Awaards</title>
   {% endif %}
 </head>
 
@@ -43,7 +43,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
-    {% bootstrap_javascript %}
+
   {% endblock %}
 
 </body>

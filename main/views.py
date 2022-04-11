@@ -181,27 +181,7 @@ def project_details(request,id):
 #     project = Project.objects.get(id=project_id)
 #     user = request.user
     
-#     form = Rateform()   
-#     if request.method == 'POST':
-#         form = RateForm(request.POST)
-#         if form.is_valid():
-#             rate = form.save(commit=False)
-#             rate.user = user
-#             rate.reviewed_project = project
-#             rate.save()
 
-#             return HttpResponseRedirect('project-detail',args=[project.id])
-
-#         else:
-#             form = RateForm
-
-#     title = 'Rate and review'
-#     context = {
-#         'form':form,
-#         'title': title,
-#     }
-
-#     return render(request,'project/project-detail.html',context)
 
 
 
