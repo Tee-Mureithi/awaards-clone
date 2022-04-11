@@ -175,7 +175,7 @@ def project_details(request,id):
         "avg_content": average_content,
     }
 
-    return render(request,'project/project-detail.html', context)
+    return render(request,'project/project-details.html', context)
 
 # def review_rate(request,project_id):
 #     project = Project.objects.get(id=project_id)
