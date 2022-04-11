@@ -92,42 +92,42 @@ class Profile(models.Model):
 
 
 DESIGN_CHOICES = [
-    (1, '1 - Trash'),
-    (2, '2 - Horrible'),
-    (3, '3 - Terrible'),
-    (4, '4 - Bad'),
-    (5, '5 - Ok'),
-    (6, '6 - Watchable'),
-    (7, '7 - Good'),
-    (8, '8 - Very Good'),
-    (9, '9 - Perfect'),
-    (10, '10 - Master Piece')
+    (1, '1 '),
+    (2, '2 '),
+    (3, '3 '),
+    (4, '4 '),
+    (5, '5 '),
+    (6, '6 '),
+    (7, '7 '),
+    (8, '8 '),
+    (9, '9 '),
+    (10, '10 ')
     
 ]
 USABILITY_CHOICES = [
-    (1, '1 - Trash'),
-    (2, '2 - Horrible'),
-    (3, '3 - Terrible'),
-    (4, '4 - Bad'),
-    (5, '5 - Ok'),
-    (6, '6 - Watchable'),
-    (7, '7 - Good'),
-    (8, '8 - Very Good'),
-    (9, '9 - Perfect'),
-    (10, '10 - Master Piece')
+    (1, '1 '),
+    (2, '2 '),
+    (3, '3 '),
+    (4, '4 '),
+    (5, '5 '),
+    (6, '6 '),
+    (7, '7 '),
+    (8, '8 '),
+    (9, '9 '),
+    (10, '10 ')
     
 ]
 CONTENT_CHOICES = [
-    (1, '1 - Trash'),
-    (2, '2 - Horrible'),
-    (3, '3 - Terrible'),
-    (4, '4 - Bad'),
-    (5, '5 - Ok'),
-    (6, '6 - Watchable'),
-    (7, '7 - Good'),
-    (8, '8 - Very Good'),
-    (9, '9 - Perfect'),
-    (10, '10 - Master Piece')
+    (1, '1 '),
+    (2, '2 '),
+    (3, '3 '),
+    (4, '4 '),
+    (5, '5 '),
+    (6, '6 '),
+    (7, '7 '),
+    (8, '8 '),
+    (9, '9 t'),
+    (10, '10 ')
     
 ]
 
