@@ -58,50 +58,18 @@ import cloudinary.uploader
 import cloudinary.api
 
 
-cloudinary.config( 
-  cloud_name = "dhap5opnh", 
-  api_key = "325448179249824", 
-  api_secret = "QPlU38npmmpCyVyvz-2OcrFXO30" 
+cloudinary.config(
+    cloud_name =config('CLOUD_NAME'),
+    api_key=config('CLOUD_API_KEY'), 
+    api_secret=config('API_SECRET'),
 )
 
 MODE=config("MODE", default="dev")
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', False)
 DEBUG = True
-# development
-# if config('MODE')=="dev":
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#            'NAME': config('DB_NAME'),
-#            'USER': config('DB_USER'),
-#            'PASSWORD': config('DB_PASSWORD'),
-#            'HOST': config('DB_HOST'),
-#            'PORT': '',
-#        }
-       
-#    }
-# # production
-# else:
-#    DATABASES = {
-#        'default': dj_database_url.config(
-#            default='sqlite:////path-to-my/database.sqlite'
-#        )
-#    }
-
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
-
-# ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-
-# ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
-
-# REGISTRATION_OPEN=True
 
 
-# CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-# AUTH_PROFILE_MODULE = 'accounts.Profile'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -145,10 +113,10 @@ WSGI_APPLICATION = 'awaards.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'awaards',
-        'USER': 'awaardsuser',
-        'PASSWORD': 'o7oKanyi',
-        'HOST': 'localhost',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
         'PORT': '',
     }
 }
