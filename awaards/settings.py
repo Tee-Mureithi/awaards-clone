@@ -17,6 +17,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 import django_on_heroku
+from decouple import config,Csv
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,12 +34,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qc9wxmnu59m)h$8a1k)r-g8k!u=c+z7x^0!)s&8lc1#z$x#k+!'
+# SECRET_KEY = 'django-insecure-qc9wxmnu59m)h$8a1k)r-g8k!u=c+z7x^0!)s&8lc1#z$x#k+!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -70,6 +72,38 @@ cloudinary.config(
   api_secret = "QPlU38npmmpCyVyvz-2OcrFXO30" 
 )
 
+MODE=config("MODE", default="dev")
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = os.environ.get('DEBUG', True)
+# development
+if config('MODE')=="dev":
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.postgresql_psycopg2',
+           'NAME': config('DB_NAME'),
+           'USER': config('DB_USER'),
+           'PASSWORD': config('DB_PASSWORD'),
+           'HOST': config('DB_HOST'),
+           'PORT': '',
+       }
+       
+   }
+# production
+else:
+   DATABASES = {
+       'default': dj_database_url.config(
+           default='sqlite:////path-to-my/database.sqlite'
+       )
+   }
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
+
+REGISTRATION_OPEN=True
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -115,16 +149,16 @@ WSGI_APPLICATION = 'awaards.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'awaards',
-        'USER': 'awaardsuser',
-        'PASSWORD': 'o7oKanyi',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'awaards',
+#         'USER': 'awaardsuser',
+#         'PASSWORD': 'o7oKanyi',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 
 # Password validation
